@@ -1,0 +1,28 @@
+<project name="shell">
+
+    <description>
+        Executing things differ on each os family. Unix is good.
+    </description>
+
+    <macrodef name="shell">
+        <attribute name="executable" />
+        <attribute name="failonerror"    default="true" />
+        <attribute name="outputproperty" default="" />
+        <attribute name="dir"            default="${basedir}"/>
+
+        <element name="args" optional="yes" implicit="yes" />
+
+        <sequential>
+            <exec
+                executable="@{executable}"
+                failonerror="@{failonerror}"
+                dir="@{dir}"
+                outputproperty="@{outputproperty}"
+            >
+                <args />
+            </exec>
+        </sequential>
+
+    </macrodef>
+
+</project>
