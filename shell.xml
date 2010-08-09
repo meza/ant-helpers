@@ -1,0 +1,12 @@
+<project name="main-shell">
+    <!-- Load os specific exec task -->
+    <condition
+        property="shell.task"
+        value="win-shell"
+        else="exec-shell"
+    >
+        <os family="windows" />
+    </condition>
+
+    <import file="./${shell.task}.xml" />
+</project>
