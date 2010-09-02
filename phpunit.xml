@@ -1,0 +1,30 @@
+<project name="phpunit">
+    <description>
+        Macrodefs for phpunit
+    </description>
+
+    <!-- Check if the required macrodefs are loaded -->
+    <fail message="Shell macrodef not found">
+        <condition>
+            <not>
+                <typefound name="shell"/>
+            </not>
+        </condition>
+    </fail>
+
+    <macrodef name="phpunit">
+        <attribute name="config" default="${basedir}/phpunit.xml"/>
+        <attribute name="test" default="."/>
+        <element name="args" optional="yes" implicit="yes" />
+
+        <sequential>
+            <shell executable="phpunit">
+                <arg value="--configuration" />
+                <arg value="@{config}" />
+                <arg value="@{test}" />
+                <args/>
+            </shell>
+        </sequential>
+    </macrodef>
+
+</project>
