@@ -21,10 +21,12 @@
         <attribute name="host" default="localhost"/>
         <attribute name="port" default="4444"/>
 
-        <get taskname="selenium-shutdown"
-            src="http://@{host}:@{port}/selenium-server/driver/?cmd=shutDownSeleniumServer"
-            dest="${basedir}/shutdown.pid"/>
-        <delete file="${basedir}/shutdown.pid"/>
+        <sequential>
+            <get taskname="selenium-shutdown"
+                src="http://@{host}:@{port}/selenium-server/driver/?cmd=shutDownSeleniumServer"
+                dest="${basedir}/shutdown.pid"/>
+            <delete file="${basedir}/shutdown.pid"/>
+        </sequential>
     </macrodef>
 
 </project>
