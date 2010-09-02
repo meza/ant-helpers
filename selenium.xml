@@ -1,0 +1,30 @@
+<project name="selenium">
+    <description>
+        Selenium tasks
+    </description>
+
+    <macrodef name="selenium-start" description="Start a selenium server">
+        <attribute name="jar" default="${basedir}/selenium-server.jar" />
+        <attribute name="fork" default="true" />
+        <attribute name="spawn" default="true" />
+        <element name="args" optional="yes" implicit="yes" />
+
+        <sequential>
+            <java jar="@{jar}" fork="@{fork}" spawn="@{spawn}">
+                <args/>
+            </java>
+            <sleep seconds="1"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="selenium-stop" description="Stop a selenium server">
+        <attribute name="host" default="localhost"/>
+        <attribute name="port" default="4444"/>
+
+        <get taskname="selenium-shutdown"
+            src="http://@{host}:@{port}/selenium-server/driver/?cmd=shutDownSeleniumServer"
+            dest="${basedir}/shutdown.pid"/>
+        <delete file="${basedir}/shutdown.pid"/>
+    </macrodef>
+
+</project>
