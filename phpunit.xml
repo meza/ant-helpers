@@ -13,12 +13,13 @@
     </fail>
 
     <macrodef name="phpunit">
+        <attribute name="path"/>
         <attribute name="config" default="${basedir}/phpunit.xml"/>
-        <attribute name="test" default="."/>
+        <attribute name="test"   default="."/>
         <element name="args" optional="yes" implicit="yes" />
 
         <sequential>
-            <shell executable="phpunit">
+            <shell executable="@{path}/phpunit">
                 <arg value="--configuration" />
                 <arg value="@{config}" />
                 <arg value="@{test}" />
