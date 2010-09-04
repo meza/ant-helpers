@@ -22,8 +22,8 @@
             <shell executable="@{path}/phpunit">
                 <arg value="--configuration" />
                 <arg value="@{config}" />
-                <arg value="@{test}" />
                 <args/>
+                <arg value="@{test}" />
             </shell>
         </sequential>
     </macrodef>
