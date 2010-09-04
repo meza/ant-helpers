@@ -32,6 +32,20 @@
         </sequential>
     </macrodef>
 
+    <macrodef name="pear-package" description="Creates a pear package">
+        <attribute name="packagexml"/>
+        <attribute name="config" default="${basedir}/.pearrc" />
+        <attribute name="failonerror" default="true" />
+        <attribute name="todir" default="${basedir}" />
+
+        <sequential>
+            <pear config="@{config}">
+                <arg value="package"/>
+                <arg value="@{packagexml}"/>
+            </pear>
+        </sequential>
+    </macrodef>
+
 
     <macrodef name="pear-generate-config" description="Creates a jail config">
         <attribute name="peardir"/>
