@@ -62,6 +62,11 @@
             <arg value="bin_dir"/>
                 <arg path="@{peardir}/pear/bin"/>
             </pear>
+            <pear outputproperty="configset.out" config="@{config}">
+                <arg value="config-set"/>
+                <arg value="auto_discover"/>
+                <arg value="1"/>
+            </pear>
             <!-- Settings below are not set automaically on win, so we must
                 handle these changes here. Unix pear is much smarter... -->
             <pear outputproperty="configset.out" config="@{config}">
