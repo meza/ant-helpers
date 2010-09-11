@@ -16,7 +16,6 @@
 
 
     <macrodef name="pear" description="Runs a command with pear">
-        <attribute name="config" default="${basedir}/.pearrc" />
         <attribute name="failonerror" default="false" />
         <attribute name="dir" default="${basedir}" />
         <attribute name="outputproperty" default="" />
@@ -25,8 +24,6 @@
         <sequential>
             <shell executable="pear" failonerror="@{failonerror}" dir="@{dir}"
             outputproperty="@{outputproperty}">
-                <arg value="-c"/>
-                <arg path="@{config}"/>
                 <args />
             </shell>
         </sequential>
@@ -34,131 +31,38 @@
 
     <macrodef name="pear-package" description="Creates a pear package">
         <attribute name="packagexml"/>
-        <attribute name="config" default="${basedir}/.pearrc" />
         <attribute name="failonerror" default="true" />
         <attribute name="todir" default="${basedir}" />
 
         <sequential>
-            <pear config="@{config}">
+            <pear>
                 <arg value="package"/>
                 <arg value="@{packagexml}"/>
             </pear>
         </sequential>
     </macrodef>
 
-
-    <macrodef name="pear-generate-config" description="Creates a jail config">
-        <attribute name="peardir"/>
-        <attribute name="config" default="${basedir}/.pearrc" />
-        <attribute name="failonerror" default="true" />
-        <attribute name="dir" default="${basedir}" />
-
-        <sequential>
-        <mkdir dir="@{peardir}" />
-            <exec executable="pear" dir="@{peardir}"
-            failonerror="@{filonerror}" osfamily="unix"
-            outputproperty="configcreate.out">
-                <arg value="config-create"/>
-                <arg path="@{peardir}" />
-                <arg path="@{config}" />
-            </exec>
-            <exec executable="cmd" dir="@{peardir}"
-            failonerror="@{filonerror}" osfamily="windows"
-            outputproperty="configcreate.out">
-                <arg value="/c" />
-                <arg value="pear" />
-                <arg value="config-create"/>
-                <arg path="@{peardir}" />
-                <arg path="@{config}" />
-            </exec>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="bin_dir"/>
-                <arg path="@{peardir}/pear/bin"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-                <arg value="auto_discover"/>
-                <arg value="1"/>
-            </pear>
-            <!-- Settings below are not set automaically on win, so we must
-                handle these changes here. Unix pear is much smarter... -->
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="cfg_dir"/>
-                <arg path="@{peardir}/pear/cfg"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="cache_dir"/>
-                <arg path="@{peardir}/pear/cache"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="data_dir"/>
-                <arg path="@{peardir}/pear/data"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="doc_dir"/>
-                <arg path="@{peardir}/pear/docs"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="download_dir"/>
-                <arg path="@{peardir}/pear/downloads"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="ext_dir"/>
-                <arg path="@{peardir}/pear/ext"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="php_dir"/>
-                <arg path="@{peardir}/pear/php"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="temp_dir"/>
-                <arg path="@{peardir}/pear/temp"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="test_dir"/>
-                <arg path="@{peardir}/pear/tests"/>
-            </pear>
-            <pear outputproperty="configset.out" config="@{config}">
-                <arg value="config-set"/>
-            <arg value="www_dir"/>
-                <arg path="@{peardir}/pear/www"/>
-            </pear>
-        </sequential>
-    </macrodef>
-
-
     <macrodef name="pear-install" description="Installs a pear package">
         <attribute name="channel"/>
         <attribute name="package"/>
         <attribute name="state" default="stable"/>
-        <attribute name="config" default="${basedir}/.pearrc" />
         <attribute name="failonerror" default="true" />
         <attribute name="dir" default="${basedir}" />
 
         <sequential>
-            <pear config="${pear.config}" outputproperty="prefstate">
+            <pear outputproperty="prefstate">
                 <arg line="config-get preferred_state"/>
             </pear>
-            <pear outputproperty="discover.out" config="@{config}" dir="@{dir}" failonerror="false">
+            <pear outputproperty="discover.out" dir="@{dir}" failonerror="false">
                 <arg line="channel-discover @{channel}" />
             </pear>
-            <pear config="@{config}" outputproperty="configset.out" dir="@{dir}" failonerror="false">
+            <pear outputproperty="configset.out" dir="@{dir}" failonerror="false">
                 <arg line="config-set preferred_state @{state}"/>
             </pear>
-            <pear config="@{config}" dir="@{dir}" failonerror="true">
+            <pear dir="@{dir}" failonerror="true">
                 <arg line="install --alldeps @{channel}/@{package}"/>
             </pear>
-            <pear config="@{config}" outputproperty="configset.out" dir="@{dir}" failonerror="false">
+            <pear outputproperty="configset.out" dir="@{dir}" failonerror="false">
                 <arg line="config-set preferred_state ${prefstate}"/>
             </pear>
 
