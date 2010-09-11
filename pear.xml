@@ -48,22 +48,20 @@
         <attribute name="state" default="stable"/>
         <attribute name="failonerror" default="true" />
         <attribute name="dir" default="${basedir}" />
+        <attribute name="installdir" default="${basedir}/vendor" />
 
         <sequential>
-            <pear outputproperty="prefstate">
-                <arg line="config-get preferred_state"/>
-            </pear>
-            <pear outputproperty="discover.out" dir="@{dir}" failonerror="false">
+            <pear dir="@{dir}" failonerror="false">
                 <arg line="channel-discover @{channel}" />
             </pear>
-            <pear outputproperty="configset.out" dir="@{dir}" failonerror="false">
+            <pear dir="@{dir}" failonerror="false">
                 <arg line="config-set preferred_state @{state}"/>
             </pear>
             <pear dir="@{dir}" failonerror="true">
-                <arg line="install --alldeps @{channel}/@{package}"/>
+                <arg line="install -f --alldeps @{channel}/@{package}"/>
             </pear>
-            <pear outputproperty="configset.out" dir="@{dir}" failonerror="false">
-                <arg line="config-set preferred_state ${prefstate}"/>
+            <pear dir="@{dir}" failonerror="false">
+                <arg line="config-set preferred_state stable"/>
             </pear>
 
         </sequential>

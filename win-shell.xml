@@ -7,7 +7,6 @@
 
         <attribute name="executable" />
         <attribute name="dir"            default="${basedir}" />
-        <attribute name="outputproperty" default="" />
         <attribute name="failonerror"    default="true" />
 
         <element name="args" optional="yes" implicit="yes" />
@@ -17,7 +16,6 @@
                 executable="cmd"
                 failonerror="@{failonerror}"
                 dir="@{dir}"
-                outputproperty="@{outputproperty}"
             >
                 <arg value="/c" />
                 <arg value="@{executable}" /><args />

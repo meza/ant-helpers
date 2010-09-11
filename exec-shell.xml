@@ -17,7 +17,6 @@
                 executable="@{executable}"
                 failonerror="@{failonerror}"
                 dir="@{dir}"
-                outputproperty="@{outputproperty}"
             >
                 <args />
             </exec>
