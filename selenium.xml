@@ -24,7 +24,8 @@
         <sequential>
             <get taskname="selenium-shutdown"
                 src="http://@{host}:@{port}/selenium-server/driver/?cmd=shutDownSeleniumServer"
-                dest="${basedir}/shutdown.pid"/>
+                dest="${basedir}/shutdown.pid"
+                ignoreerrors="true"/>
             <delete file="${basedir}/shutdown.pid"/>
         </sequential>
     </macrodef>
